@@ -230,6 +230,8 @@ void speed_pid(unsigned long interval)
 */
 void straight_line(float input_bias, unsigned long interval, float angle, float measure_angle)
 {
+  /* input_bias: the constant speed | interval: time interval for straight-line PID | angle: demand of straight line=0 | measure_angle: measured orientation
+  */
   unsigned long straight_pid_timestamp = micros();
   unsigned long straight_pid_time_interval = straight_pid_timestamp - straight_pid_prev_timestamp;
 
@@ -240,7 +242,7 @@ void straight_line(float input_bias, unsigned long interval, float angle, float 
     l_power = input_bias + straight_output;
     r_power = input_bias - straight_output;
 
-    power_constrain(constrain_bias);
+    power_constrain(constrain_bias);  // Avoid low values that does not launch the car
 
     straight_pid_prev_timestamp = straight_pid_timestamp;
   }
